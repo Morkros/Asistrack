@@ -1,2 +1,1 @@
--dias de clase y porcentaje de promoción deben ser modificable NO añadiendo una nueva fila
 -mostrar mensaje de error si un dni intenta cambiarse a uno que ya existe
