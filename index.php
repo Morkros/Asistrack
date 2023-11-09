@@ -42,16 +42,21 @@ $totalClases = $rowParametros['dias_clases'];
         <li class="nav-item  ms-2 mr-2">
           <a class="nav-link active">Alumno</a>
         </li>
-        <li class="nav-item ms-2 mr-2">
+        <!-- </li>
+         <li class="nav-item ms-2 mr-2">
           <a class="nav-link" href="./profesor/index.php">Profesor</a>
-        </li>
-        <li class="nav-item ms-2 mr-2">
-          <a class="nav-link" href="./asistencia/configuracion.php">Configuración</a>
+       </li> -->
+       <li class="nav-item  ms-2 mr-2">
+          <a class="nav-link active">Calendario</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        <li class="nav-item ms-2 mr-2">
+          <a class="nav-link" href="./asistencia/configuracion.php"><i class="bi bi-gear"></i></a>
+        </li>
+        <li class="nav-item ms-2 mr-2 mt-auto">
           <a class="navbar-brand">AsisTrack</a>
+        </li>
       </ul>
     </nav>
     <div class="text-center mt-5">
