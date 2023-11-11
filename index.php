@@ -52,7 +52,11 @@ $totalClases = $rowParametros['dias_clases'];
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item ms-2 mr-2">
-          <a class="nav-link" href="./asistencia/configuracion.php"><i class="bi bi-gear"></i></a>
+        <a class="nav-link" href="./asistencia/configuracion.php">
+          <svg class="bi" width="128" height="128" fill="currentColor">
+            <use href="./iconos/gear.svg#gear"/>
+          </svg>
+        </a>
         </li>
         <li class="nav-item ms-2 mr-2 mt-auto">
           <a class="navbar-brand">AsisTrack</a>

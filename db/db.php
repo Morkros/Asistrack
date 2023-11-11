@@ -3,7 +3,7 @@ class db {
     // Configuración de acceso a la base de datos
 private $servername = "localhost";
 private $username = "root";
-private $password = "hola"; 
+private $password = "12345"; 
 private $dbname = "sistema";
 private $conexion;
 
