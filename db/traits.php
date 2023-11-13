@@ -20,7 +20,7 @@ trait alertas {
         });</script>';
       }
     
-    public function mostrarMensajeSuccess($mensaje) {
+    public function mostrarMensajeExito($mensaje) {
         echo '<script language="javascript">Swal.fire({title: "¡Genial!", 
             text: "' . $mensaje . '", 
             icon: "success", 

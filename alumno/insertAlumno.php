@@ -56,38 +56,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Comprobar campos vacíos
   if (empty($nombre) || empty($apellido) || empty($dni) || empty($nacimiento)) {
-      mostrarError("Por favor, complete todos los campos obligatorios.");
+    $datosAlumno->mostrarMensajeError("Por favor, complete todos los campos obligatorios.");
   } else {
       // Comprobar edad mayor o igual a 17 años
       $fechaNacimiento = strtotime($nacimiento);
       $fechaActual = time();
       if ($fechaActual - $fechaNacimiento < 17 * 31536000) {
-          mostrarError("La fecha ingresada es menor a 17 años de edad.");
+        $datosAlumno->mostrarMensajeError("La fecha ingresada es menor a 17 años de edad.");
       } else {
           // Comprobar nombre y apellido alfabéticos
           if (!ctype_alpha(str_replace(' ', '', $nombre))) {
-              mostrarError("Por favor, ingrese un nombre válido.");
+            $datosAlumno->mostrarMensajeError("Por favor, ingrese un nombre válido.");
           } else if (!ctype_alpha(str_replace(' ', '', $apellido))) {
-              mostrarError("Por favor, ingrese un apellido válido.");
+            $datosAlumno->mostrarMensajeError("Por favor, ingrese un apellido válido.");
           } else {
               // Comprobar DNI numérico y de longitud 8
               if (!is_numeric($dni) || strlen($dni) != 8) {
-                  mostrarError("El DNI ingresado es inválido");
+                $datosAlumno->mostrarMensajeError("El DNI ingresado es inválido");
               } else {
                   $datosAlumno->insertAlumno($baseDatos, $nombre, $apellido, $dni, $nacimiento);
               }
           }
       }
   }
-}
-
-function mostrarError($mensaje) {
-  echo '<script language="javascript">Swal.fire({
-      title: "Error",
-      text: "' . $mensaje . '",
-      icon: "error",
-      confirmButtonColor: "#007bff"
-  });</script>';
 }
 ?>
 

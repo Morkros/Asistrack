@@ -7,20 +7,42 @@ $datosAlumno = new alumno();
 // Verificar si se ha enviado el formulario de modificación de alumno
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $alumnoId = $_POST["alumnoId"];
-  $nombre = $_POST["nombre"];
-  $apellido = $_POST["apellido"];
-  $dni = $_POST["dni"];
-  $nacimiento = $_POST["nacimiento"];
+  $nombre = trim($_POST["nombre"]);
+  $apellido = trim($_POST["apellido"]);
+  $dni = trim($_POST["dni"]);
+  $nacimiento = trim($_POST["nacimiento"]);
 
-  $datosAlumno->updateAlumno($baseDatos, $alumnoId, $nombre, $apellido, $dni, $nacimiento);
-
+  // Comprobar campos vacíos
+  if (empty($nombre) || empty($apellido) || empty($dni) || empty($nacimiento)) {
+    $datosAlumno->mostrarMensajeError("Por favor, complete todos los campos obligatorios.");
+  } else {
+      // Comprobar edad mayor o igual a 17 años
+      $fechaNacimiento = strtotime($nacimiento);
+      $fechaActual = time();
+      if ($fechaActual - $fechaNacimiento < 17 * 31536000) {
+        $datosAlumno->mostrarMensajeError("La fecha ingresada es menor a 17 años de edad.");
+      } else {
+          // Comprobar nombre y apellido alfabéticos
+          if (!ctype_alpha(str_replace(' ', '', $nombre))) {
+            $datosAlumno->mostrarMensajeError("Por favor, ingrese un nombre válido.");
+          } else if (!ctype_alpha(str_replace(' ', '', $apellido))) {
+            $datosAlumno->mostrarMensajeError("Por favor, ingrese un apellido válido.");
+          } else {
+              // Comprobar DNI numérico y de longitud 8
+              if (!is_numeric($dni) || strlen($dni) != 8) {
+                $datosAlumno->mostrarMensajeError("El DNI ingresado es inválido");
+              } else {
+                $datosAlumno->updateAlumno($baseDatos, $alumnoId, $nombre, $apellido, $dni, $nacimiento);
+              }
+          }
+      }
+  }
 } else {
   // Obtener el ID del alumno a modificar
   $alumnoId = $_GET["id"];
 
   // Obtener los datos del alumno de la base de datos
   $sql = "SELECT * FROM alumnos WHERE id = $alumnoId";
-  //$result = $baseDatos->connect()->query($sql);
   $result = $datosAlumno->consultar($baseDatos, $sql);
 
   if ($result->num_rows > 0) {
