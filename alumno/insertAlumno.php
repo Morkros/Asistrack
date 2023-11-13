@@ -37,8 +37,8 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
         <input type="date" class="form-control" name="nacimiento" required>
       </div>
 
-      <button type="submit" class="btn btn-primary">Agregar Alumno</button>
-      <td><a href='../index.php' class='btn btn-danger btn-eliminar'>Volver</a></td>
+      <button type="submit" class="btn btn-primary mt-2">Agregar Alumno</button>
+      <td><a href='../index.php' class='btn btn-danger btn-eliminar mt-2'>Volver</a></td>
     </form>
   </div>
   <script src="../js/bootstrap.js"></script>
@@ -49,50 +49,45 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 <?php
 // Verificar si se ha enviado el formulario de alta de alumno
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $nombre = $_POST["nombre"];
-  $apellido = $_POST["apellido"];
-  $dni = $_POST["dni"];
-  $nacimiento = $_POST["nacimiento"];
+  $nombre = trim($_POST["nombre"]);
+  $apellido = trim($_POST["apellido"]);
+  $dni = trim($_POST["dni"]);
+  $nacimiento = trim($_POST["nacimiento"]);
 
-  //comprueba que los campos no estén vacíos
-  if (empty($nombre) && empty($apellido) && empty($dni) && empty($nacimiento)) {
-    echo '<script language="javascript">Swal.fire({title: "Error", 
-      text: "Por favor, complete todos los campos obligatorios.", 
-      icon: "error", 
-      confirmButtonColor: "#007bff"});</script>';
+  // Comprobar campos vacíos
+  if (empty($nombre) || empty($apellido) || empty($dni) || empty($nacimiento)) {
+      mostrarError("Por favor, complete todos los campos obligatorios.");
   } else {
-    
-    //comprueba que la edad sea igual o mayor a 17 años
-    $fechaNacimiento = strtotime($nacimiento); //convierte la fecha ingresada a UNIX
-    $fechaActual = time(); //fecha actual en UNIX
-    if ($fechaActual - $fechaNacimiento < 17 * 31536000) {
-      echo '<script language="javascript">Swal.fire({title: "Error", 
-        text: "La fecha ingresada es menor a 17 años de edad.", 
-        icon: "error", 
-        confirmButtonColor: "#007bff"});</script>';
-    } else {
-
-      //comprueba que nombre y apellido sean alfabeticos
-      if (ctype_alpha($nombre) & ctype_alpha($apellido)) {
-
-        //comprueba que el DNI sea numerico
-        $longitudDNI=strlen($dni);
-        if (is_numeric($dni) && $longitudDNI=8) {
-          $datosAlumno->insertAlumno($baseDatos, $nombre, $apellido, $dni, $nacimiento);
-        } else {
-          echo '<script language="javascript">Swal.fire({title: "Error", 
-            text: "El DNI ingresado es inválido", 
-            icon: "error", 
-            confirmButtonColor: "#007bff"});</script>';
-        }
+      // Comprobar edad mayor o igual a 17 años
+      $fechaNacimiento = strtotime($nacimiento);
+      $fechaActual = time();
+      if ($fechaActual - $fechaNacimiento < 17 * 31536000) {
+          mostrarError("La fecha ingresada es menor a 17 años de edad.");
       } else {
-        echo '<script language="javascript">Swal.fire({title: "Error", 
-          text: "Por favor, ingrese un nombre y/o apellido válido.", 
-          icon: "error", 
-          confirmButtonColor: "#007bff"});</script>';
+          // Comprobar nombre y apellido alfabéticos
+          if (!ctype_alpha(str_replace(' ', '', $nombre))) {
+              mostrarError("Por favor, ingrese un nombre válido.");
+          } else if (!ctype_alpha(str_replace(' ', '', $apellido))) {
+              mostrarError("Por favor, ingrese un apellido válido.");
+          } else {
+              // Comprobar DNI numérico y de longitud 8
+              if (!is_numeric($dni) || strlen($dni) != 8) {
+                  mostrarError("El DNI ingresado es inválido");
+              } else {
+                  $datosAlumno->insertAlumno($baseDatos, $nombre, $apellido, $dni, $nacimiento);
+              }
+          }
       }
-    }
   }
+}
+
+function mostrarError($mensaje) {
+  echo '<script language="javascript">Swal.fire({
+      title: "Error",
+      text: "' . $mensaje . '",
+      icon: "error",
+      confirmButtonColor: "#007bff"
+  });</script>';
 }
 ?>
 

@@ -1,14 +1,32 @@
 <?php
-trait calculo {
-    function calculoRegularidad($porcentaje,$nota1,$nota2){
-        $promedio= $nota1 + $nota2 / 2;
-        if (($porcentaje<80 && $porcentaje>=50) && $promedio>6) {
-            print "regular";
-        } elseif ($porcentaje<=50 || $promedio<6) {
-            print "libre";
-        } elseif ($porcentaje>=80 && $promedio>=8) {
-            print "promociona";
-        }
+trait alertas {
+    public function mostrarMensajeError($mensaje) {
+        echo '<script language="javascript">Swal.fire({
+            title: "Error",
+            text: "' . $mensaje . '",
+            icon: "error",
+            confirmButtonColor: "#007bff"
+        });</script>';
+      }
+      //esta versión de la función anterior, permite volver al index al clickear el botón de confirmación
+    public function mostrarMensajeErrorReturn($mensaje) {
+        echo '<script language="javascript">Swal.fire({
+            title: "Error",
+            text: "' . $mensaje . '",
+            icon: "error",
+            confirmButtonColor: "#007bff"
+        }).then(function() {
+            window.location.href = "../index.php";
+        });</script>';
+      }
+    
+    public function mostrarMensajeSuccess($mensaje) {
+        echo '<script language="javascript">Swal.fire({title: "¡Genial!", 
+            text: "' . $mensaje . '", 
+            icon: "success", 
+            confirmButtonColor: "#007bff"}).then(function() {
+              window.location.href = "../index.php";
+            });</script>';
     }
 }
 ?>

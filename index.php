@@ -23,8 +23,6 @@ $sqlParametros = "SELECT dias_clases FROM Parametros";
 $resultParametros = $datosAlumno->consultar($baseDatos, $sqlParametros);
 $rowParametros = mysqli_fetch_assoc($resultParametros);
 $totalClases = $rowParametros['dias_clases'];
-
- 
 ?>
 
 <!DOCTYPE html>
@@ -109,8 +107,8 @@ if ($result->num_rows > 0) {
     
     echo "<td>" . $porcentajeAsistencia . "%</td>";
     echo "<td><div class='btn-group'>";
-    echo "<a href='./alumno/insertInstantanea.php?id=" . $row["id"] . "&fecha=" . date("Y-m-d H:i:s") . "' class='btn btn-success'>Presente</a>";
-    echo "<a href='./alumno/insertAsistencia.php?id=" . $row["id"] . "' class='btn btn-primary'>As.Tardía</a>";
+    echo "<a href='./asistencia/insertInstantanea.php?id=" . $row["id"] . "&fecha=" . date("Y-m-d H:i:s") . "' class='btn btn-success'>Presente</a>";
+    echo "<a href='./asistencia/insertAsistencia.php?id=" . $row["id"] . "' class='btn btn-primary'>As.Tardía</a>";
     echo "</div></td>";
     echo "<td><div class='btn-group'>";
     echo "<a href='./alumno/updateAlumno.php?id=" . $row["id"] . "' class='btn btn-warning'>Modificar</a>";

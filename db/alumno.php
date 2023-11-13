@@ -15,7 +15,7 @@ require_once("autoload.php");
 require_once("traits.php");
 
 class alumno {
-  use calculo;
+  //use alertas;
     private $id;
     private $nombre;
     private $apellido;

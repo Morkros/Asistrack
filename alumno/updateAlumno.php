@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="container">
     <h1>Modificar Datos de Alumno</h1>
     <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-      <div class="form-group">
+      <div class="form-group" style="display: none;">
         <label for="alumnoId">ID del Alumno:</label>
         <input type="text" class="form-control" id="alumnoId" name="alumnoId" value="<?php echo $alumnoId; ?>" required>
       </div>
