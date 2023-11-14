@@ -8,7 +8,8 @@ trait alertas {
             confirmButtonColor: "#007bff"
         });</script>';
       }
-      //esta versión de la función anterior, permite volver al index al clickear el botón de confirmación
+
+    //esta versión de la función anterior, permite volver al index al clickear el botón de confirmación
     public function mostrarMensajeErrorReturn($mensaje) {
         echo '<script language="javascript">Swal.fire({
             title: "Error",
@@ -21,10 +22,12 @@ trait alertas {
       }
     
     public function mostrarMensajeExito($mensaje) {
-        echo '<script language="javascript">Swal.fire({title: "¡Genial!", 
+        echo '<script language="javascript">Swal.fire({
+            title: "¡Genial!", 
             text: "' . $mensaje . '", 
             icon: "success", 
-            confirmButtonColor: "#007bff"}).then(function() {
+            confirmButtonColor: "#007bff"
+          }).then(function() {
               window.location.href = "../index.php";
             });</script>';
     }

@@ -40,11 +40,12 @@ class alumno {
             $stmt->bind_param("ssss", $this->nombre, $this->apellido, $this->dni, $this->nacimiento);
             $stmt->execute();
             $stmt->close();
-            echo '<script language="javascript">setTimeout(function () {window.location.href = "../index.php";}, 0050);</script>';
+            $this->mostrarMensajeExito("Alumno añadido correctamente.");
+            //echo '<script language="javascript">setTimeout(function () {window.location.href = "../index.php";}, 0050);</script>';
             $conexionDB->desconectar();
         } else {
             //return false;
-            mostrarMensajeError("Error al agregar el alumno");
+            $this-> mostrarMensajeError("Error al agregar el alumno");
             $conexionDB->desconectar();
         }
     }
@@ -110,7 +111,7 @@ class alumno {
       if ($result->num_rows > 0) {
 
       // La asistencia ya existe, mostrar mensaje de error
-      mostrarMensajeError("La fecha de la asistencia ya fue agregada anteriormente para el alumno.");
+      $this->mostrarMensajeError("La fecha de la asistencia ya fue agregada anteriormente para el alumno.");
     } else {
 
       // La asistencia no existe, insertar en la base de datos
@@ -118,7 +119,7 @@ class alumno {
       $stmt = $conexionDB->connect()->prepare($sql);
       $stmt->bind_param("ss", $dni_alumno, $fecha);
       $stmt->execute();
-      mostrarMensajeExito("Asistencia agregada exitosamente.");
+      $this->mostrarMensajeExito("Asistencia agregada exitosamente.");
     }
       $conexionDB->desconectar();
   }
@@ -143,17 +144,17 @@ class alumno {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-          mostrarMensajeError("La asistencia ya fue agregada anteriormente para el alumno.");
+          $this->mostrarMensajeErrorReturn("La asistencia ya fue agregada anteriormente para el alumno.");
         } else {
             // La asistencia no existe, insertar en la base de datos
             $sql = "INSERT INTO asistencias (dni_alumno, fecha) VALUES (?, ?)";
             $stmt = $conexionDB->connect()->prepare($sql);
             $stmt->bind_param("ss", $dni_alumno, $fecha);
             $stmt->execute();
-            mostrarMensajeExito("Asistencia agregada exitosamente.");
+            $this->mostrarMensajeExito("Asistencia agregada exitosamente.");
         }
     } else {
-        mostrarMensajeErrorReturn("No se encontró el alumno con el ID proporcionado.");
+      $this->mostrarMensajeErrorReturn("No se encontró el alumno con el ID proporcionado.");
     }
 
     $conexionDB->desconectar(); 

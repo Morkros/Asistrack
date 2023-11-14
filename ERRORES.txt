@@ -1,1 +1,0 @@
--mostrar mensaje de error si un dni intenta cambiarse a uno que ya existe
