@@ -55,6 +55,7 @@ class profesor {
         // Devolver la respuesta en formato JSON
         echo json_encode($response);
     }
+    
     //permite realizar la busqueda de alumnos en el index
     public function consultar($conexionDB, $sql) {
         $conexionDB->conectar();
@@ -67,57 +68,115 @@ class profesor {
         $conexionDB->conectar();
         $this->dias = $diasIngresados;
         
-        $sql = "UPDATE parametros SET dias_clases = ?";
-        $stmt = $conexionDB->connect()->prepare($sql);
-
-        if ($stmt) {
-            //return true;
-            $stmt->bind_param("s", $this->dias);
-            $stmt->execute();
-            $stmt->close();
-            echo '<script language="javascript">setTimeout(function () {window.location.href = "./configuracion.php";}, 0050);</script>';
-            $conexionDB->desconectar();
+        $sqlSelect = "SELECT * FROM parametros";
+        $result = $conexionDB->connect()->query($sqlSelect);
+    
+        if ($result->num_rows > 0) {
+            // Actualización normal
+            $sql = "UPDATE parametros SET dias_clases = ?";
+            $stmt = $conexionDB->connect()->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $this->dias);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al confirmar");</script>';
+            }
         } else {
-            //return false;
-            echo '<script language="javascript">alert("Error al confirmar");</script>';
-            $conexionDB->desconectar();
+            // Insertar nuevo valor
+            $sqlInsert = "INSERT INTO parametros (dias_clases) VALUES (?)";
+            $stmt = $conexionDB->connect()->prepare($sqlInsert);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $this->dias);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al confirmar");</script>';
+            }
         }
+    
+        $conexionDB->desconectar();
     }
+
 
     public function updatePorcentajePromocion($conexionDB, $porcentajePromocion) {
         $conexionDB->conectar();
-
-        $sql = "UPDATE parametros SET promocion = ?";
-        $stmt = $conexionDB->connect()->prepare($sql);
-
-        if ($stmt) {
-            $stmt->bind_param("s", $porcentajePromocion);
-            $stmt->execute();
-            $stmt->close();
-         
+    
+        $sqlSelect = "SELECT * FROM parametros";
+        $result = $conexionDB->connect()->query($sqlSelect);
+    
+        if ($result->num_rows > 0) {
+            // Actualización normal
+            $sql = "UPDATE parametros SET promocion = ?";
+            $stmt = $conexionDB->connect()->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $porcentajePromocion);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">alert("Porcentaje de promoción actualizado correctamente.");</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al insertar el porcentaje de promoción.");</script>';
+            }
         } else {
-            echo '<script language="javascript">alert("Error al insertar el porcentaje de promoción.");</script>';
+            // Insertar nuevo valor
+            $sqlInsert = "INSERT INTO parametros (promocion) VALUES (?)";
+            $stmt = $conexionDB->connect()->prepare($sqlInsert);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $porcentajePromocion);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">alert("Porcentaje de promoción insertado correctamente.");</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al insertar el porcentaje de promoción.");</script>';
+            }
         }
-
+    
         $conexionDB->desconectar();
     }
+    
 
     public function updatePorcentajeRegular($conexionDB, $porcentajeRegular) {
         $conexionDB->conectar();
-
-        $sql = "UPDATE parametros SET regular = ?";
-        $stmt = $conexionDB->connect()->prepare($sql);
-
-        if ($stmt) {
-            $stmt->bind_param("s", $porcentajeRegular);
-            $stmt->execute();
-            $stmt->close();
-          
+    
+        $sqlSelect = "SELECT * FROM parametros";
+        $result = $conexionDB->connect()->query($sqlSelect);
+    
+        if ($result->num_rows > 0) {
+            // Actualización normal
+            $sql = "UPDATE parametros SET regular = ?";
+            $stmt = $conexionDB->connect()->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $porcentajeRegular);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">alert("Porcentaje regular actualizado correctamente.");</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+            }
         } else {
-            echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+            // Insertar nuevo valor
+            $sqlInsert = "INSERT INTO parametros (regular) VALUES (?)";
+            $stmt = $conexionDB->connect()->prepare($sqlInsert);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $porcentajeRegular);
+                $stmt->execute();
+                $stmt->close();
+                echo '<script language="javascript">alert("Porcentaje regular insertado correctamente.");</script>';
+            } else {
+                echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+            }
         }
-
+    
         $conexionDB->desconectar();
     }
+    
 }
 ?>

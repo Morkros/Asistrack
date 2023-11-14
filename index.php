@@ -22,7 +22,14 @@ $result = $datosAlumno->consultar($baseDatos, $sql);
 $sqlParametros = "SELECT dias_clases FROM Parametros";
 $resultParametros = $datosAlumno->consultar($baseDatos, $sqlParametros);
 $rowParametros = mysqli_fetch_assoc($resultParametros);
-$totalClases = $rowParametros['dias_clases'];
+
+// Verificar si se obtuvo un resultado válido
+if ($rowParametros && array_key_exists('dias_clases', $rowParametros)) {
+    $totalClases = $rowParametros['dias_clases'];
+} else {
+    // Si $rowParametros es nulo o no tiene la clave 'dias_clases' se le asigna valor
+    $totalClases = 0; 
+}
 
 
 ?>
@@ -43,7 +50,7 @@ $totalClases = $rowParametros['dias_clases'];
           <a class="nav-link active">Alumno</a>
         </li>
         <li class="nav-item  ms-2 mr-2">
-          <a class="nav-link" href="./asistencia/calendario.php">Calendario</a>
+          <a class="nav-link" href="../asistrack-main/asistencia/calendario.php">Calendario</a>
         </li>
         <!-- </li>
          <li class="nav-item ms-2 mr-2">
@@ -100,28 +107,47 @@ if ($result->num_rows > 0) {
     echo "<td>" . date_format($nacimientoFormato, "d/m/Y") . "</td>";
 
 
+// Realizar la consulta para obtener los valores de "regular" y "promocion"
 $sqlParametros = "SELECT regular, promocion FROM Parametros";
 $resultParametros = $datosAlumno->consultar($baseDatos, $sqlParametros);
 $rowParametros = mysqli_fetch_assoc($resultParametros);
-$valorRegular = $rowParametros['regular'];
-$valorPromocional = $rowParametros['promocion'];
+
+// Verificar si se obtuvo un resultado válido y si las claves existen
+if ($rowParametros && array_key_exists('regular', $rowParametros) && array_key_exists('promocion', $rowParametros)) {
+    $valorRegular = $rowParametros['regular'];
+    $valorPromocional = $rowParametros['promocion'];
+} else {
+    // Si $rowParametros es nulo o no contiene las claves 'regular' y 'promocion' se le aigna valor
+    $valorRegular = 0; 
+    $valorPromocional = 0; 
+}
+
 
 // Calcular el porcentaje de asistencia
 $sqlAsistencias = "SELECT COUNT(*) AS asistencias FROM Asistencias WHERE dni_alumno = '" . $row["dni"] . "'";
 $resultAsistencias = $datosAlumno->consultar($baseDatos, $sqlAsistencias);
 $rowAsistencias = mysqli_fetch_assoc($resultAsistencias);
 $asistencias = $rowAsistencias['asistencias'];
-$porcentajeAsistencia = ($asistencias / $totalClases) * 100;
-$porcentajeAsistencia = number_format($porcentajeAsistencia, 2);
+// Verificar si $totalClases es distinto de cero antes de realizar la división
+if ($totalClases != 0) {
+  $porcentajeAsistencia = ($asistencias / $totalClases) * 100;
+  $porcentajeAsistencia = number_format($porcentajeAsistencia, 2);
+} else {
+  //si $totalClases es cero se asigna valor
+  $porcentajeAsistencia = 0; 
+}
 
-// Determinar el color del porcentaje de asistencia
-if ($porcentajeAsistencia < $valorRegular) {
+// Color de porcentaje
+if ($porcentajeAsistencia == 0 && $valorRegular == 0 && $valorPromocional == 0) {
+  $colorPorcentaje = 'red'; // Si el porcentaje es 0 y no hay valores para promoción ni regular, el texto es rojo
+} elseif ($porcentajeAsistencia < $valorRegular) {
   $colorPorcentaje = 'red';
 } elseif ($porcentajeAsistencia >= $valorRegular && $porcentajeAsistencia < $valorPromocional) {
   $colorPorcentaje = 'yellow';
 } else {
   $colorPorcentaje = 'green';
 }
+
 
     echo "<td style='color: $colorPorcentaje;'>" . $porcentajeAsistencia . "%</td>";
     echo "<td><div class='btn-group'>";
