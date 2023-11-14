@@ -23,6 +23,8 @@ $sqlParametros = "SELECT dias_clases FROM Parametros";
 $resultParametros = $datosAlumno->consultar($baseDatos, $sqlParametros);
 $rowParametros = mysqli_fetch_assoc($resultParametros);
 $totalClases = $rowParametros['dias_clases'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +43,7 @@ $totalClases = $rowParametros['dias_clases'];
           <a class="nav-link active">Alumno</a>
         </li>
         <li class="nav-item  ms-2 mr-2">
-          <a class="nav-link active">Calendario</a>
+          <a class="nav-link" href="../asistrack-main/asistencia/calendario.php">Calendario</a>
         </li>
         <!-- </li>
          <li class="nav-item ms-2 mr-2">
@@ -97,15 +99,31 @@ if ($result->num_rows > 0) {
     echo "<td>" . $row["apellido"] . "</td>";
     echo "<td>" . date_format($nacimientoFormato, "d/m/Y") . "</td>";
 
-    // Calcular el porcentaje de asistencia
-    $sqlAsistencias = "SELECT COUNT(*) AS asistencias FROM Asistencias WHERE dni_alumno = '" . $row["dni"] . "'";
-    $resultAsistencias = $datosAlumno->consultar($baseDatos, $sqlAsistencias);
-    $rowAsistencias = mysqli_fetch_assoc($resultAsistencias);
-    $asistencias = $rowAsistencias['asistencias'];
-    $porcentajeAsistencia = ($asistencias / $totalClases) * 100;
-    $porcentajeAsistencia = number_format($porcentajeAsistencia, 2);
-    
-    echo "<td>" . $porcentajeAsistencia . "%</td>";
+
+$sqlParametros = "SELECT regular, promocion FROM Parametros";
+$resultParametros = $datosAlumno->consultar($baseDatos, $sqlParametros);
+$rowParametros = mysqli_fetch_assoc($resultParametros);
+$valorRegular = $rowParametros['regular'];
+$valorPromocional = $rowParametros['promocion'];
+
+// Calcular el porcentaje de asistencia
+$sqlAsistencias = "SELECT COUNT(*) AS asistencias FROM Asistencias WHERE dni_alumno = '" . $row["dni"] . "'";
+$resultAsistencias = $datosAlumno->consultar($baseDatos, $sqlAsistencias);
+$rowAsistencias = mysqli_fetch_assoc($resultAsistencias);
+$asistencias = $rowAsistencias['asistencias'];
+$porcentajeAsistencia = ($asistencias / $totalClases) * 100;
+$porcentajeAsistencia = number_format($porcentajeAsistencia, 2);
+
+// Determinar el color del porcentaje de asistencia
+if ($porcentajeAsistencia < $valorRegular) {
+  $colorPorcentaje = 'red';
+} elseif ($porcentajeAsistencia >= $valorRegular && $porcentajeAsistencia < $valorPromocional) {
+  $colorPorcentaje = 'yellow';
+} else {
+  $colorPorcentaje = 'green';
+}
+
+    echo "<td style='color: $colorPorcentaje;'>" . $porcentajeAsistencia . "%</td>";
     echo "<td><div class='btn-group'>";
     echo "<a href='./asistencia/insertInstantanea.php?id=" . $row["id"] . "&fecha=" . date("Y-m-d H:i:s") . "' class='btn btn-success'>Presente</a>";
     echo "<a href='./asistencia/insertAsistencia.php?id=" . $row["id"] . "' class='btn btn-primary'>As.Tardía</a>";

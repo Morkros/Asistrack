@@ -2,11 +2,14 @@ document.addEventListener("DOMContentLoaded", function() {
   // Obtener todos los botones de eliminar
   var btnEliminar = document.querySelectorAll(".btn-eliminar");
 
-  // Agregar un evento de clic a cada botón de eliminar
+       // Agregar un evento de clic a cada botón de eliminar
   btnEliminar.forEach(function(btn) {
     btn.addEventListener("click", function() {
-      var alumnoId = this.getAttribute("data-alumno-id");
-      var fila = this.closest("tr");
+      var confirmarEliminacion = confirm("¿Estás seguro de querer eliminar a este alumno?");
+      if (confirmarEliminacion) {
+        var alumnoId = this.getAttribute("data-alumno-id");
+        var fila = this.closest("tr");
+
 
       // Eliminar la fila del alumno de la tabla
       fila.remove();
@@ -32,6 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => {
           console.error(error);
         });
-    });
+    }});
   });
 });
