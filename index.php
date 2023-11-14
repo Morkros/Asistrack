@@ -43,7 +43,7 @@ $totalClases = $rowParametros['dias_clases'];
           <a class="nav-link active">Alumno</a>
         </li>
         <li class="nav-item  ms-2 mr-2">
-          <a class="nav-link" href="../asistrack-main/asistencia/calendario.php">Calendario</a>
+          <a class="nav-link" href="./asistencia/calendario.php">Calendario</a>
         </li>
         <!-- </li>
          <li class="nav-item ms-2 mr-2">
