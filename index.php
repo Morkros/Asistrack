@@ -172,4 +172,3 @@ if ($porcentajeAsistencia == 0 && $valorRegular == 0 && $valorPromocional == 0) 
   <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
-
