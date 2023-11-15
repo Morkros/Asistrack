@@ -1,7 +1,9 @@
 <?php
 require_once("autoload.php");
+require_once("traits.php");
 
 class profesor {
+    use alertas;
     private $nombre;
     private $apellido;
     private $dni;
@@ -82,7 +84,7 @@ class profesor {
                 $stmt->close();
                 echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
             } else {
-                echo '<script language="javascript">alert("Error al confirmar");</script>';
+                $this->mostrarMensajeError("Error al confirmar.");
             }
         } else {
             // Insertar nuevo valor
@@ -95,7 +97,7 @@ class profesor {
                 $stmt->close();
                 echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
             } else {
-                echo '<script language="javascript">alert("Error al confirmar");</script>';
+                $this->mostrarMensajeError("Error al confirmar.");
             }
         }
     
@@ -118,9 +120,9 @@ class profesor {
                 $stmt->bind_param("s", $porcentajePromocion);
                 $stmt->execute();
                 $stmt->close();
-                echo '<script language="javascript">alert("Porcentaje de promoción actualizado correctamente.");</script>';
+                $this->mostrarMensajeExito("Porcentaje de promoción actualizado correctamente.");
             } else {
-                echo '<script language="javascript">alert("Error al insertar el porcentaje de promoción.");</script>';
+                $this->mostrarMensajeError("Error al actualizar el porcentaje de promoción.");
             }
         } else {
             // Insertar nuevo valor
@@ -133,7 +135,7 @@ class profesor {
                 $stmt->close();
                 echo '<script language="javascript">alert("Porcentaje de promoción insertado correctamente.");</script>';
             } else {
-                echo '<script language="javascript">alert("Error al insertar el porcentaje de promoción.");</script>';
+                $this->mostrarMensajeError("Error al insertar el porcentaje de promoción.");
             }
         }
     
@@ -156,9 +158,9 @@ class profesor {
                 $stmt->bind_param("s", $porcentajeRegular);
                 $stmt->execute();
                 $stmt->close();
-                echo '<script language="javascript">alert("Porcentaje regular actualizado correctamente.");</script>';
+                $this->mostrarMensajeExito("Porcentaje regular actualizado correctamente.");
             } else {
-                echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+                $this->mostrarMensajeError("Error al actualizar el porcentaje regular.");
             }
         } else {
             // Insertar nuevo valor
@@ -169,9 +171,9 @@ class profesor {
                 $stmt->bind_param("s", $porcentajeRegular);
                 $stmt->execute();
                 $stmt->close();
-                echo '<script language="javascript">alert("Porcentaje regular insertado correctamente.");</script>';
+                $this->mostrarMensajeExito("Porcentaje regular insertado correctamente.");
             } else {
-                echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+                $this->mostrarMensajeError("Error al insertar el porcentaje regular.");
             }
         }
     

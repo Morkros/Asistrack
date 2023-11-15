@@ -50,7 +50,7 @@ if ($rowParametros && array_key_exists('dias_clases', $rowParametros)) {
           <a class="nav-link active">Alumno</a>
         </li>
         <li class="nav-item  ms-2 mr-2">
-          <a class="nav-link" href="../asistrack-main/asistencia/calendario.php">Calendario</a>
+          <a class="nav-link" href="./asistencia/calendario.php">Calendario</a>
         </li>
         <!-- </li>
          <li class="nav-item ms-2 mr-2">
@@ -95,7 +95,7 @@ if ($rowParametros && array_key_exists('dias_clases', $rowParametros)) {
       </thead>
       <tbody>
       <?php
-      
+
 // Mostrar los resultados en la tabla
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {

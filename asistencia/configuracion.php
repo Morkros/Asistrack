@@ -34,24 +34,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Acción para actualizar el porcentaje de promoción
     if (isset($_POST["promocion"])) {
       $porcentajePromocion = $_POST["promocion"];
-      $datosProfesor->updatePorcentajePromocion($baseDatos, $porcentajePromocion);
+      if (is_numeric($porcentajePromocion) && strlen($porcentajePromocion) == 2) {
+        $datosProfesor->updatePorcentajePromocion($baseDatos, $porcentajePromocion);
+      }
     }
-
     // Acción para actualizar el porcentaje regular
     if (isset($_POST["regular"])) {
       $porcentajeRegular = $_POST["regular"];
-      $datosProfesor->updatePorcentajeRegular($baseDatos, $porcentajeRegular);
+      if (is_numeric($porcentajeRegular) && strlen($porcentajeRegular) == 2) {
+        $datosProfesor->updatePorcentajeRegular($baseDatos, $porcentajeRegular);
+      }
     }
-
     // Acción para actualizar los días de clases
     if (isset($_POST["dias"])) {
       $diasClases = $_POST["dias"];
-      $datosProfesor->updateDiasClases($baseDatos, $diasClases);
+      if (is_numeric($diasClases) && (strlen($diasClases) > 1) && (strlen($diasClases) < 4)) {
+        $datosProfesor->updateDiasClases($baseDatos, $diasClases);
+      }
     }
   }
-
 }
-?>
+
+?> 
 
 <!DOCTYPE html>
 <html>
