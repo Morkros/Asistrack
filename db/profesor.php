@@ -1,9 +1,8 @@
 <?php
 require_once("autoload.php");
-require_once("traits.php");
+
 
 class profesor {
-    use alertas;
     private $nombre;
     private $apellido;
     private $dni;
@@ -66,115 +65,136 @@ class profesor {
         $conexionDB->desconectar();
     }
 
-    public function updateDiasClases($conexionDB, $diasIngresados) {
-        $conexionDB->conectar();
-        $this->dias = $diasIngresados;
-        
-        $sqlSelect = "SELECT * FROM parametros";
-        $result = $conexionDB->connect()->query($sqlSelect);
+   public function updateDiasClases($conexionDB, $diasIngresados) {
+    $conexionDB->conectar();
     
-        if ($result->num_rows > 0) {
-            // Actualización normal
-            $sql = "UPDATE parametros SET dias_clases = ?";
-            $stmt = $conexionDB->connect()->prepare($sql);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $this->dias);
-                $stmt->execute();
-                $stmt->close();
-                echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
-            } else {
-                $this->mostrarMensajeError("Error al confirmar.");
-            }
-        } else {
-            // Insertar nuevo valor
-            $sqlInsert = "INSERT INTO parametros (dias_clases) VALUES (?)";
-            $stmt = $conexionDB->connect()->prepare($sqlInsert);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $this->dias);
-                $stmt->execute();
-                $stmt->close();
-                echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
-            } else {
-                $this->mostrarMensajeError("Error al confirmar.");
-            }
-        }
-    
+    // Validar si el valor ingresado es numérico
+    if (!is_numeric($diasIngresados)) {
         $conexionDB->desconectar();
+        return; // Salir de la función si el valor no es numérico
     }
 
+    $this->dias = $diasIngresados;
+    
+    $sqlSelect = "SELECT * FROM parametros";
+    $result = $conexionDB->connect()->query($sqlSelect);
 
-    public function updatePorcentajePromocion($conexionDB, $porcentajePromocion) {
-        $conexionDB->conectar();
-    
-        $sqlSelect = "SELECT * FROM parametros";
-        $result = $conexionDB->connect()->query($sqlSelect);
-    
-        if ($result->num_rows > 0) {
-            // Actualización normal
-            $sql = "UPDATE parametros SET promocion = ?";
-            $stmt = $conexionDB->connect()->prepare($sql);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $porcentajePromocion);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                $this->mostrarMensajeError("Error al actualizar el porcentaje de promoción.");
-            }
+    if ($result->num_rows > 0) {
+        // Actualización normal
+        $sql = "UPDATE parametros SET dias_clases = ?";
+        $stmt = $conexionDB->connect()->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $this->dias);
+            $stmt->execute();
+            $stmt->close();
+            echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
         } else {
-            // Insertar nuevo valor
-            $sqlInsert = "INSERT INTO parametros (promocion) VALUES (?)";
-            $stmt = $conexionDB->connect()->prepare($sqlInsert);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $porcentajePromocion);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                $this->mostrarMensajeError("Error al insertar el porcentaje de promoción.");
-            }
+            $this->mostrarMensajeError("Error al confirmar.");
         }
-    
-        $conexionDB->desconectar();
+    } else {
+        // Insertar nuevo valor
+        $sqlInsert = "INSERT INTO parametros (dias_clases) VALUES (?)";
+        $stmt = $conexionDB->connect()->prepare($sqlInsert);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $this->dias);
+            $stmt->execute();
+            $stmt->close();
+            echo '<script language="javascript">setTimeout(function () {window.location.href = ... ... ... "./configuracion.php";}, 0050);</script>';
+        } else {
+            $this->mostrarMensajeError("Error al confirmar.");
+        }
     }
+
+    $conexionDB->desconectar();
+}
+
+
+
+   public function updatePorcentajePromocion($conexionDB, $porcentajePromocion) {
+    $conexionDB->conectar();
+
+    // Validar si el valor ingresado es numérico
+    if (!is_numeric($porcentajePromocion)) {
+        $conexionDB->desconectar();
+        return; // Salir de la función si el valor no es numérico
+    }
+
+    $sqlSelect = "SELECT * FROM parametros";
+    $result = $conexionDB->connect()->query($sqlSelect);
+
+    if ($result->num_rows > 0) {
+        // Actualización normal
+        $sql = "UPDATE parametros SET promocion = ?";
+        $stmt = $conexionDB->connect()->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $porcentajePromocion);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            $this->mostrarMensajeError("Error al actualizar el porcentaje de promoción.");
+        }
+    } else {
+        // Insertar nuevo valor
+        $sqlInsert = "INSERT INTO parametros (promocion) VALUES (?)";
+        $stmt = $conexionDB->connect()->prepare($sqlInsert);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $porcentajePromocion);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            $this->mostrarMensajeError("Error al insertar el porcentaje de promoción.");
+        }
+    }
+
+    $conexionDB->desconectar();
+}
+
     
 
-    public function updatePorcentajeRegular($conexionDB, $porcentajeRegular) {
-        $conexionDB->conectar();
-    
-        $sqlSelect = "SELECT * FROM parametros";
-        $result = $conexionDB->connect()->query($sqlSelect);
-    
-        if ($result->num_rows > 0) {
-            // Actualización normal
-            $sql = "UPDATE parametros SET regular = ?";
-            $stmt = $conexionDB->connect()->prepare($sql);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $porcentajeRegular);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                $this->mostrarMensajeError("Error al actualizar el porcentaje regular.");
-            }
-        } else {
-            // Insertar nuevo valor
-            $sqlInsert = "INSERT INTO parametros (regular) VALUES (?)";
-            $stmt = $conexionDB->connect()->prepare($sqlInsert);
-    
-            if ($stmt) {
-                $stmt->bind_param("s", $porcentajeRegular);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                $this->mostrarMensajeError("Error al insertar el porcentaje regular.");
-            }
-        }
-    
+public function updatePorcentajeRegular($conexionDB, $porcentajeRegular) {
+    $conexionDB->conectar();
+
+    // Validar si el valor ingresado es numérico
+    if (!is_numeric($porcentajeRegular)) {
         $conexionDB->desconectar();
+        return; // Salir de la función si el valor no es numérico
     }
+
+    $sqlSelect = "SELECT * FROM parametros";
+    $result = $conexionDB->connect()->query($sqlSelect);
+
+    if ($result->num_rows > 0) {
+        // Actualización normal
+        $sql = "UPDATE parametros SET regular = ?";
+        $stmt = $conexionDB->connect()->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $porcentajeRegular);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+        }
+    } else {
+        // Insertar nuevo valor
+        $sqlInsert = "INSERT INTO parametros (regular) VALUES (?)";
+        $stmt = $conexionDB->connect()->prepare($sqlInsert);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $porcentajeRegular);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            echo '<script language="javascript">alert("Error al insertar el porcentaje regular.");</script>';
+        }
+    }
+
+    $conexionDB->desconectar();
+}
     
 }
 ?>
