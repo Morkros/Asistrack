@@ -50,16 +50,25 @@ class alumno {
         }
     }
     
-        // Función para modificar los datos de un alumno
     function updateAlumno($conexionDB, $alumnoId, $nombre, $apellido, $dni, $nacimiento) {
-        $sql = "UPDATE alumnos SET nombre = '$nombre', apellido = '$apellido', dni = '$dni', nacimiento = '$nacimiento' WHERE id = $alumnoId";
+      // Verificar si el DNI está duplicado y pertenece a otro usuario
+      $sql = "SELECT id FROM alumnos WHERE dni = '$dni' AND id != $alumnoId";
+      $result = $conexionDB->connect()->query($sql);
+
+      if ($result->num_rows > 0) {
+        $this->mostrarMensajeError("DNI existente, volver a intentar.");
+      } else {
+          // Actualizar los datos del alumno
+          $sql = "UPDATE alumnos SET nombre = '$nombre', apellido = '$apellido', dni = '$dni', nacimiento = '$nacimiento' WHERE id = $alumnoId";
   
-        if ($conexionDB->connect()->query($sql) === TRUE) {
-        echo '<script language="javascript">setTimeout(function () {window.location.href = "../index.php";}, 0050);</script>';
-        } else {
-        echo "Error al modificar los datos del alumno: " . $conexionDB->connect()->error;
-        }
-    }
+          if ($conexionDB->query($sql) === TRUE) {
+              echo '<script language="javascript">setTimeout(function () {window.location.href = "../index.php";}, 0050);</script>';
+          } else {
+              $this-> mostrarMensajeError("Error al agregar el alumno");
+              echo "Error al modificar los datos del alumno: " . $conexionDB->error;
+          }
+      }
+  }
 
     // Función para eliminar los datos de un alumno
     function deleteAlumno($conexionDB, $alumnoId) {
