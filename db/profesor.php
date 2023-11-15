@@ -120,7 +120,6 @@ class profesor {
                 $stmt->bind_param("s", $porcentajePromocion);
                 $stmt->execute();
                 $stmt->close();
-                $this->mostrarMensajeExito("Porcentaje de promoción actualizado correctamente.");
             } else {
                 $this->mostrarMensajeError("Error al actualizar el porcentaje de promoción.");
             }
@@ -133,7 +132,6 @@ class profesor {
                 $stmt->bind_param("s", $porcentajePromocion);
                 $stmt->execute();
                 $stmt->close();
-                echo '<script language="javascript">alert("Porcentaje de promoción insertado correctamente.");</script>';
             } else {
                 $this->mostrarMensajeError("Error al insertar el porcentaje de promoción.");
             }
@@ -158,7 +156,6 @@ class profesor {
                 $stmt->bind_param("s", $porcentajeRegular);
                 $stmt->execute();
                 $stmt->close();
-                $this->mostrarMensajeExito("Porcentaje regular actualizado correctamente.");
             } else {
                 $this->mostrarMensajeError("Error al actualizar el porcentaje regular.");
             }
@@ -171,7 +168,6 @@ class profesor {
                 $stmt->bind_param("s", $porcentajeRegular);
                 $stmt->execute();
                 $stmt->close();
-                $this->mostrarMensajeExito("Porcentaje regular insertado correctamente.");
             } else {
                 $this->mostrarMensajeError("Error al insertar el porcentaje regular.");
             }
