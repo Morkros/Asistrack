@@ -7,6 +7,7 @@ Usar:
 		estatico
 	html 
 		Boostrap
+		Sweetalert2
 		JavaScript
 	base de datos:
 		mariadb
@@ -15,7 +16,7 @@ Tablas
 	alumnos: id,dni,nombre,apellido,nacimiento
 	asistencia: id,dni,fecha (timestamp)
 	profesores: id,dni,nombre,apellido
-	parametros: cant_dias (cantidad de dias de clase) array con los porcentajes (Promocion,regular), horaClaseInicio y horaClaseFin
+	parametros: cant_dias (cantidad de dias de clase) array con los porcentajes (Promocion,regular)
 	
 Hacer
 	-Alta baja modificacion de alumnos (Nombre,apellido,dni,fecha nacimiento)
@@ -25,6 +26,5 @@ Hacer
 	-Promociona si o no, poner en rojo o verde el fondo
 	-Validacion(Si hay duplicado avisar)
 	-Listado alfabeticamente por apellido
-        -si la asistencia es ingresada 15 minutos luego del horario de inicio de la clase, no será ingresada
 
 -crear archivo deploy.txt (donde realizar el paso a paso para instalar el sistema (encontrando el link a github))
