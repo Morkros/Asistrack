@@ -61,11 +61,11 @@ class alumno {
           // Actualizar los datos del alumno
           $sql = "UPDATE alumnos SET nombre = '$nombre', apellido = '$apellido', dni = '$dni', nacimiento = '$nacimiento' WHERE id = $alumnoId";
   
-          if ($conexionDB->query($sql) === TRUE) {
+          if ($conexionDB->connect()->query($sql) === TRUE) {
               echo '<script language="javascript">setTimeout(function () {window.location.href = "../index.php";}, 0050);</script>';
           } else {
               $this-> mostrarMensajeError("Error al agregar el alumno");
-              echo "Error al modificar los datos del alumno: " . $conexionDB->error;
+              echo "Error al modificar los datos del alumno: " . $conexionDB->connect()->error;
           }
       }
   }

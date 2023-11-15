@@ -143,7 +143,7 @@ if ($porcentajeAsistencia == 0 && $valorRegular == 0 && $valorPromocional == 0) 
 } elseif ($porcentajeAsistencia < $valorRegular) {
   $colorPorcentaje = 'red';
 } elseif ($porcentajeAsistencia >= $valorRegular && $porcentajeAsistencia < $valorPromocional) {
-  $colorPorcentaje = 'yellow';
+  $colorPorcentaje = 'orange';
 } else {
   $colorPorcentaje = 'green';
 }

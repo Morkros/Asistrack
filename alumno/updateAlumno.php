@@ -7,10 +7,10 @@ $datosAlumno = new alumno();
 // Verificar si se ha enviado el formulario de modificación de alumno
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $alumnoId = $_POST["alumnoId"];
-  $nombre = trim($_POST["nombre"]);
-  $apellido = trim($_POST["apellido"]);
-  $dni = trim($_POST["dni"]);
-  $nacimiento = trim($_POST["nacimiento"]);
+  $nombre = $_POST["nombre"];
+  $apellido = $_POST["apellido"];
+  $dni = $_POST["dni"];
+  $nacimiento = $_POST["nacimiento"];
 
   // Comprobar campos vacíos
   if (empty($nombre) || empty($apellido) || empty($dni) || empty($nacimiento)) {
